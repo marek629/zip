@@ -6,7 +6,7 @@ const argv = require('yargs').argv;
 const fs = require('fs');
 const zip = require('gulp-zip');
 
-const zipBuildDirectoryPath = 'archive/zip-build';
+const zipBuildDirectoryPath = 'archive/' + argv.brand || 'zip-build';;
 
 
 gulp.task('zip-build-clean', () => {
@@ -34,7 +34,7 @@ gulp.task('zip', ['zip-build'], () => {
     }
     fileName += '.zip';
 
-    return gulp.src(zipBuildDirectoryPath + '/**', {base: 'archive'})
+    return gulp.src(zipBuildDirectoryPath + '/**', {base: zipBuildDirectoryPath.split('/')[0]})
         .pipe(zip(fileName))
         .pipe(gulp.dest('dist'));
 });
