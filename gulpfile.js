@@ -6,8 +6,9 @@ const argv = require('yargs').argv;
 const fs = require('fs');
 const zip = require('gulp-zip');
 
+const defaultBrandName = 'archive';
 let zipBuildDirectoryPath = 'zip/build/';
-zipBuildDirectoryPath += argv.brand || 'zip-build';
+zipBuildDirectoryPath += argv.brand || defaultBrandName;
 
 
 gulp.task('zip-build-clean', () => {
@@ -26,7 +27,7 @@ gulp.task('zip-build', ['zip-build-clean'], () => {
 gulp.task('zip', ['zip-build'], () => {
     let manifest = JSON.parse(fs.readFileSync('manifest.json'));
 
-    let fileName = argv.brand || 'archive';
+    let fileName = argv.brand || defaultBrandName;
     fileName += '-' + manifest.version;
 
     let environment = argv.env;
