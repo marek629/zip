@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const gulp = require('gulp');
 const clean = require('gulp-rimraf');
@@ -6,7 +6,8 @@ const argv = require('yargs').argv;
 const fs = require('fs');
 const zip = require('gulp-zip');
 
-const zipBuildDirectoryPath = 'archive/' + argv.brand || 'zip-build';;
+let zipBuildDirectoryPath = 'zip/build/';
+zipBuildDirectoryPath += argv.brand || 'zip-build';
 
 
 gulp.task('zip-build-clean', () => {
@@ -34,7 +35,14 @@ gulp.task('zip', ['zip-build'], () => {
     }
     fileName += '.zip';
 
-    return gulp.src(zipBuildDirectoryPath + '/**', {base: zipBuildDirectoryPath.split('/')[0]})
+    let getDirectoryPath = (path) =>
+    {
+        let array = path.split('/');
+        array.pop();
+        return array.join('/');
+    };
+
+    return gulp.src(zipBuildDirectoryPath + '/**', {base: getDirectoryPath(zipBuildDirectoryPath)})
         .pipe(zip(fileName))
-        .pipe(gulp.dest('dist'));
+        .pipe(gulp.dest('zip/dist'));
 });
